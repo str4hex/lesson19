@@ -13,6 +13,9 @@ class DirectorsView(Resource):
         res = DirectorSchema(many=True).dump(rs)
         return res, 200
 
+    def post(self):
+        pass
+
 
 @director_ns.route('/<int:rid>')
 class DirectorView(Resource):
@@ -20,3 +23,10 @@ class DirectorView(Resource):
         r = director_service.get_one(rid)
         sm_d = DirectorSchema().dump(r)
         return sm_d, 200
+
+
+    def put(self):
+        pass
+
+    def delete(self):
+        pass
