@@ -10,6 +10,7 @@ class UserModel(db.Model):
     role = db.Column(db.String)
 
 
+
 class UserShema(Schema):
     id = fields.Integer()
     username = fields.String()

@@ -1,4 +1,6 @@
-from flask_restx import Resource, Namespace
+import jwt
+from flask import request
+from flask_restx import Resource, Namespace, abort
 
 from dao.model.director import DirectorSchema
 from implemented import director_service
@@ -6,8 +8,29 @@ from implemented import director_service
 director_ns = Namespace('directors')
 
 
+algo = 'HS256'
+secret = 'wdfawf@ew332ref_3w'
+
+def auth_required(func):
+    def wrapper(*args, **kwargs):
+        if 'Authorization' not in request.headers:
+            abort(401)
+        data = request.headers['Authorization']
+        token = data
+        print(token)
+        try:
+            jwt.decode(token, secret, algorithms=[algo])
+        except Exception as e:
+            print("JWT Decode Exception", e)
+            abort(401)
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
 @director_ns.route('/')
 class DirectorsView(Resource):
+    @auth_required
     def get(self):
         rs = director_service.get_all()
         res = DirectorSchema(many=True).dump(rs)
