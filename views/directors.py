@@ -11,6 +11,11 @@ director_ns = Namespace('directors')
 algo = 'HS256'
 secret = 'wdfawf@ew332ref_3w'
 
+datas = {
+	"username:": "ok",
+	"role": "user"
+}
+
 def auth_required(func):
     def wrapper(*args, **kwargs):
         if 'Authorization' not in request.headers:
@@ -18,6 +23,8 @@ def auth_required(func):
         data = request.headers['Authorization']
         token = data
         print(token)
+        tokens = jwt.encode(datas, secret, algorithm=algo)
+        print(tokens)
         try:
             jwt.decode(token, secret, algorithms=[algo])
         except Exception as e:
