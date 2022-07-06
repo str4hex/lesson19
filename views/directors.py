@@ -1,4 +1,3 @@
-import jwt
 from flask import request
 from flask_restx import Resource, Namespace, abort
 
@@ -8,43 +7,17 @@ from implemented import director_service
 director_ns = Namespace('directors')
 
 
-algo = 'HS256'
-secret = 'wdfawf@ew332ref_3w'
-
-datas = {
-	"username:": "ok",
-	"role": "user"
-}
-
-def auth_required(func):
-    def wrapper(*args, **kwargs):
-        if 'Authorization' not in request.headers:
-            abort(401)
-        data = request.headers['Authorization']
-        token = data
-        print(token)
-        tokens = jwt.encode(datas, secret, algorithm=algo)
-        print(tokens)
-        try:
-            jwt.decode(token, secret, algorithms=[algo])
-        except Exception as e:
-            print("JWT Decode Exception", e)
-            abort(401)
-        return func(*args, **kwargs)
-
-    return wrapper
-
-
-@director_ns.route('/')
+@director_ns.route('')
 class DirectorsView(Resource):
-    @auth_required
     def get(self):
         rs = director_service.get_all()
         res = DirectorSchema(many=True).dump(rs)
         return res, 200
 
     def post(self):
-        pass
+        reg_json = request.json
+        director = director_service.create(reg_json)
+        return "", 201
 
 
 @director_ns.route('/<int:rid>')
@@ -54,9 +27,12 @@ class DirectorView(Resource):
         sm_d = DirectorSchema().dump(r)
         return sm_d, 200
 
+    def put(self, rid):
+        reg_json = request.json
+        if "id" not in reg_json:
+            reg_json["id"] = rid
+        director_service.update(reg_json)
+        return '', 204
 
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
+    def delete(self, rid):
+        return director_service.delete(rid), 201
