@@ -12,10 +12,12 @@ class UserDao:
         self.session.commit()
         return user_json
 
-    def delete_user(self,uid):
-        user = self.session.get(uid)
+    def delete_user(self, uid):
+        user = self.session.query(UserModel).get(uid)
         self.session.delete(user)
         self.session.commit()
 
-
-
+    def update_user(self, data):
+        user = UserModel(**data)
+        self.session.add(user)
+        self.session.commit()
