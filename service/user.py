@@ -16,6 +16,10 @@ class UserService:
     def delete_user(self, uid):
         return self.dao.delete_user(uid)
 
+    def update_user(self, data):
+        return self.dao.update_user(data)
+
+
     def get_hash(self, password):
 
         return base64.b64encode(hashlib.pbkdf2_hmac(
