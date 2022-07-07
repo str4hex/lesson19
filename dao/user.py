@@ -6,6 +6,9 @@ class UserDao:
     def __init__(self, session):
         self.session = session
 
+    def get_one(self, uid):
+        return self.session.query(UserModel).get(uid)
+
     def create_user(self, data):
         user_json = UserModel(**data)
         self.session.add(user_json)
@@ -21,3 +24,6 @@ class UserDao:
         user = UserModel(**data)
         self.session.add(user)
         self.session.commit()
+
+    def get_by_username(self, username):
+        return self.session.query(UserModel).filter(UserModel.username == username)
