@@ -42,4 +42,8 @@ class AuthService:
         if not user:
             return False
 
+        now = calendar.timegm((datetime.datetime.utcnow().timetuple()))
+        expired = data['exp']
+        if now > expired:
+            return False
         return self.generate_tokens(username, user.password, is_refresh=True)

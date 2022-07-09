@@ -91,4 +91,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://127.0.0.1:10001/movies/21
+DELETE http://127.0.0.1:10001/movies/20

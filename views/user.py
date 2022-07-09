@@ -5,7 +5,7 @@ from implemented import user_service
 
 ns_user = Namespace('users')
 
-@ns_user.route('')
+@ns_user.route('/')
 class UserView(Resource):
 
     def post(self):

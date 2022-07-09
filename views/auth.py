@@ -1,20 +1,14 @@
 from flask import request
 from flask_restx import Resource, Namespace, abort
 
-from dao.model.user import UserShema
-
 
 from implemented import auth_service, user_service
 
 ns_auth = Namespace('auth')
-user_schema = UserShema()
 
-@ns_auth.route('')
+
+@ns_auth.route('/')
 class AuthView(Resource):
-
-    def get(self):
-        auth_test_user =  user_service.get_by_username("antarius1")
-        return user_schema.dump(auth_test_user)
 
     def post(self):
         req_json = request.json

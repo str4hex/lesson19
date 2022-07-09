@@ -25,5 +25,5 @@ class UserDao:
         self.session.add(user)
         self.session.commit()
 
-    def get_by_username(self, username):
-        return self.session.query(UserModel).filter(UserModel.username == username)
+    def get_by_username(self, usernames):
+        return self.session.query(UserModel).filter(UserModel.username == usernames).first()
